@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Boss Breaker: Physics Breakout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sat: env(safe-area-inset-top);
+            --sar: env(safe-area-inset-right);
+            --sab: env(safe-area-inset-bottom);
+            --sal: env(safe-area-inset-left);
+        }
+        
+        /* 1️⃣ 固定遊戲區域：禁止整頁捲動 */
+        html, body { 
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; 
+            overscroll-behavior-y: none; /* 關鍵：徹底停用行動端下拉重整 */
+            overscroll-behavior-x: none;
+            position: fixed;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #020617; 
+            color: #f8fafc; 
+            /* 修改處：不再全域禁用 touch-action，改由 JS 或局部 CSS 控制 */
+            touch-action: manipulation; 
+        }
+
+        #root {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* 捲動條美化 */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 允許特定區域捲動的 Class */
+        .allow-scroll {
+            /* 針對水平捲動區域優化 */
+            touch-action: pan-x !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* 針對垂直捲動區域優化 */
+        .allow-scroll-y {
+            touch-action: pan-y !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+<!-- Use local bundled React via Vite (remove importmap to ensure bundling) -->
+  <script type="module" crossorigin src="/bossbreaker/assets/index-BBNwUfLA.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
