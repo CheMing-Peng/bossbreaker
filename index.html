@@ -15,14 +15,13 @@
             --sal: env(safe-area-inset-left);
         }
         
-        /* 1️⃣ 固定遊戲區域：禁止整頁捲動 */
         html, body { 
             margin: 0;
             padding: 0;
             width: 100vw;
             height: 100vh;
             overflow: hidden; 
-            overscroll-behavior-y: none; /* 關鍵：徹底停用行動端下拉重整 */
+            overscroll-behavior-y: none;
             overscroll-behavior-x: none;
             position: fixed;
             -webkit-overflow-scrolling: touch;
@@ -32,7 +31,6 @@
             font-family: 'Inter', sans-serif; 
             background-color: #020617; 
             color: #f8fafc; 
-            /* 修改處：不再全域禁用 touch-action，改由 JS 或局部 CSS 控制 */
             touch-action: manipulation; 
         }
 
@@ -45,7 +43,6 @@
 
         .mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* 捲動條美化 */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
@@ -58,23 +55,48 @@
             scrollbar-width: none;
         }
 
-        /* 允許特定區域捲動的 Class */
         .allow-scroll {
-            /* 針對水平捲動區域優化 */
             touch-action: pan-x !important;
             overflow-x: auto !important;
             -webkit-overflow-scrolling: touch;
         }
         
-        /* 針對垂直捲動區域優化 */
         .allow-scroll-y {
             touch-action: pan-y !important;
             overflow-y: auto !important;
             -webkit-overflow-scrolling: touch;
         }
+
+        /* SSR 展示專用動畫：Ken Burns 效果 */
+        @keyframes ken-burns {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.15) translateY(-2%); }
+        }
+        .animate-ken-burns {
+            animation: ken-burns 10s ease-out forwards;
+        }
+
+        /* SSR 展示專用：背景旋轉光芒 */
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-rotate-slow {
+            animation: rotate-slow 20s linear infinite;
+        }
     </style>
-<!-- Use local bundled React via Vite (remove importmap to ensure bundling) -->
-  <script type="module" crossorigin src="/bossbreaker/assets/index-BBNwUfLA.js"></script>
+
+<link rel="stylesheet" href="/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/bossbreaker/assets/index-BDDmTDKn.js"></script>
 </head>
 <body>
     <div id="root"></div>
